@@ -1,17 +1,16 @@
 import { NavLink } from "react-router-dom";
 
 export default function NavBar() {
-
     return (
-        <>
+        <nav>
             <ul>
                 <li>
-                    <NavLink to='/' >Task List</NavLink>
+                    <NavLink to='/' >Lista Task</NavLink>
                 </li>
                 <li>
-                    <NavLink to='/add'>Add Task</NavLink>
+                    <NavLink to='/add'>Aggiungi Task</NavLink>
                 </li>
             </ul>
-        </>
-    )
+        </nav>
+    );
 }
