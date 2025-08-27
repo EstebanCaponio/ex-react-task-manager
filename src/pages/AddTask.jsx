@@ -1,9 +1,11 @@
-import { useMemo, useRef, useState } from "react"
+import { useContext, useMemo, useRef, useState } from "react"
+import { GlobalContext } from "../context/GlobalContext";
 
 const symbols = "!@#$%^&*()-_=+[]{}|;:'\"\,.<>?/`~";
 
 export default function AddTask() {
 
+    const { addTask } = useContext(GlobalContext);
     const [taskTitle, setTaskTitle] = useState('');
     const descriptionRef = useRef();
     const statusRef = useRef();
@@ -18,7 +20,7 @@ export default function AddTask() {
         return '';
     }, [taskTitle])
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
         if (errorTaskTitle)
             return;
@@ -29,11 +31,16 @@ export default function AddTask() {
             status: statusRef.current.value
         }
 
-        console.log('task da aggiungere', newTask)
+        try {
+            await addTask(newTask);
+            alert('task creata con successo')
+            setTaskTitle('');
+            descriptionRef.current.value = '';
+            statusRef.current.value = 'To Do';
+        } catch (error) {
+            alert(error.message);
+        }
 
-        setTaskTitle('');
-        descriptionRef.current.value = '';
-        statusRef.current.value = 'To Do';
     }
 
     return (
@@ -63,8 +70,8 @@ export default function AddTask() {
                     Stato:
                     <select className="form-input"
                         ref={statusRef}
-                        defaultValue={'To Do'}>
-                        <option value="To Do">To Do</option>
+                        defaultValue={'To do'}>
+                        <option value="To do">To do</option>
                         <option value="Doing">Doing</option>
                         <option value="Done">Done</option>
                     </select>
