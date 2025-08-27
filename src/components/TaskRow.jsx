@@ -21,12 +21,14 @@ export default React.memo(function TaskRow({ task }) {
             <td>
                 <Link to={`/task/${task.id}`}>{task.title}</Link>
             </td>
-            <td>
+            <td className="status-cell">
                 <span className={`status-badge ${getStatusClass(task.status)}`}>
                     {task.status}
                 </span>
             </td>
-            <td>{new Date(task.createdAt).toLocaleDateString()}</td>
+            <td style={{ textAlign: 'center' }}>
+                {new Date(task.createdAt).toLocaleDateString()}
+            </td>
         </tr>
     );
 });

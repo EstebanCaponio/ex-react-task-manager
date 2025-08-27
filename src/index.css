@@ -47,7 +47,7 @@ nav ul {
     padding: 0;
     display: flex;
     gap: 30px;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
 
@@ -167,13 +167,17 @@ tr:hover {
 }
 
 /* status*/
+.status-cell {
+    text-align: center;
+}
+
 .status-badge {
-    display: flex;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
     min-width: 80px;
+    /* Larghezza minima per tutti i badge */
     height: 30px;
-    box-sizing: border-box;
     padding: 6px 12px;
     border-radius: 20px;
     font-weight: 600;
@@ -181,6 +185,17 @@ tr:hover {
     color: #ffffff;
     text-transform: capitalize;
 }
+
+
+/* .status-badge {
+    box-sizing: border-box;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85em;
+    color: #ffffff;
+    text-transform: capitalize;
+} */
 
 .status-todo {
     background-color: #e74c3c;
@@ -243,4 +258,84 @@ tr:hover {
     align-items: center;
     gap: 10px;
     margin-bottom: 15px;
+}
+
+
+/*Modale*/
+
+.modal-overly {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal h2 {
+    color: #2c3e50;
+    font-size: 1.8em;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.modal-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-actions button:first-child {
+    background-color: #bdc3c7;
+    color: #333;
+}
+
+.modal-actions button:first-child:hover {
+    background-color: #95a5a6;
+}
+
+.modal-actions button:last-child {
+    background-color: #e74c3c;
+    color: #ffffff;
+}
+
+.modal-actions button:last-child:hover {
+    background-color: #c0392b;
+}
+
+/* Animazione per l'entrata della modale */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
