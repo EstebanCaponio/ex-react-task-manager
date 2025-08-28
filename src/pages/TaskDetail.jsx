@@ -2,12 +2,14 @@ import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GlobalContext } from "../context/GlobalContext";
 import Modal from "../components/Modal";
+import EditTaskModal from "../components/EditTaskModal";
 
 export default function TaskDetail() {
     const { id } = useParams();
-    const { tasks, removeTask } = useContext(GlobalContext);
+    const { tasks, removeTask, updateTask } = useContext(GlobalContext);
     const navigate = useNavigate();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
 
     const task = tasks.find(t => t.id === parseInt(id));
 
@@ -21,7 +23,6 @@ export default function TaskDetail() {
 
     const handleDelete = async () => {
         try {
-            // console.log('task da eliminare', task.id);
             await removeTask(task.id);
             alert('Task eliminata!');
             navigate('/');
@@ -44,6 +45,16 @@ export default function TaskDetail() {
         }
     };
 
+    const handleModify = async (taskToUpdate) => {
+        try {
+            await updateTask(taskToUpdate);
+            setShowEditModal(false);
+        } catch (error) {
+            console.error(error);
+            alert(error.message);
+        }
+    };
+
     return (
         <main>
             <div className="task-detail-card">
@@ -55,8 +66,13 @@ export default function TaskDetail() {
                     <span className={`status-badge ${getStatusClass(task.status)}`}>{task.status}</span>
                 </div>
                 <p><strong>Data:</strong> {new Date(task.createdAt).toLocaleDateString()}</p>
-                <button onClick={() => setShowDeleteModal(true)} className="delete-button">Elimina</button>
-                {/* modale di eliminazione */}
+
+
+                <div className="task-actions">
+                    <button onClick={() => setShowEditModal(true)} className="edit-button">Modifica</button>
+                    <button onClick={() => setShowDeleteModal(true)} className="delete-button">Elimina</button>
+                </div>
+
                 <Modal
                     title='ELIMINAZIONE'
                     content={<p>Vuoi davvero eliminare questa task?</p>}
@@ -64,6 +80,12 @@ export default function TaskDetail() {
                     onClose={() => setShowDeleteModal(false)}
                     onConfirm={handleDelete}
                     confirmText="Elimina"
+                />
+                <EditTaskModal
+                    task={task}
+                    show={showEditModal}
+                    onClose={() => setShowEditModal(false)}
+                    onSave={handleModify}
                 />
             </div>
         </main>
